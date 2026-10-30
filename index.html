@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>幸福之門倒數計時</title>
+<title>二周年之門</title>
 
 <style>
 * {
@@ -37,7 +37,8 @@ h1 {
   line-height: 1.8;
 }
 
-/* 門框 */
+/* ===== 幸福之門 ===== */
+
 .door-frame {
   position: relative;
   width: min(90vw, 410px);
@@ -51,7 +52,6 @@ h1 {
   perspective: 1000px;
 }
 
-/* 門後的祝福 */
 .inside {
   position: absolute;
   inset: 0;
@@ -73,17 +73,12 @@ h1 {
   line-height: 1.8;
 }
 
-/* 左右門片 */
 .door {
   position: absolute;
   top: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    110deg,
-    #f9cbd9,
-    #e9a8c0
-  );
+  background: linear-gradient(110deg, #f9cbd9, #e9a8c0);
   border: 2px solid #d98fac;
   transition: transform 2.5s ease;
   z-index: 2;
@@ -102,7 +97,6 @@ h1 {
   border-radius: 0 180px 0 0;
 }
 
-/* 門片上的裝飾線條 */
 .panel {
   position: absolute;
   top: 20%;
@@ -114,7 +108,6 @@ h1 {
   box-shadow: inset 0 0 0 5px #e9acc1;
 }
 
-/* 金色門把 */
 .handle {
   position: absolute;
   top: 54%;
@@ -135,14 +128,15 @@ h1 {
   left: 12px;
 }
 
-/* 倒數計時牌 */
+/* ===== 倒數計時牌 ===== */
+
 .countdown-board {
   position: absolute;
   left: 50%;
   top: 32%;
   transform: translateX(-50%);
   width: 92%;
-  background: #fff8fbeF;
+  background: #fff8fbef;
   border: 2px solid #efb4ca;
   border-radius: 18px;
   padding: 16px 8px;
@@ -179,7 +173,7 @@ h1 {
   color: #bd587d;
 }
 
-.label {
+.time-label {
   font-size: 13px;
   margin-top: 5px;
 }
@@ -190,7 +184,6 @@ h1 {
   color: #b87490;
 }
 
-/* 倒數結束，門開啟 */
 .door-frame.open .left-door {
   transform: rotateY(-110deg);
 }
@@ -204,11 +197,251 @@ h1 {
   pointer-events: none;
 }
 
+/* ===== 愛心收藏盒 ===== */
+
+.heart-section {
+  margin-top: 26px;
+  padding: 20px;
+  width: min(90vw, 410px);
+  background: #fff8fb;
+  border: 2px solid #f2bfd1;
+  border-radius: 22px;
+  box-shadow: 0 8px 25px #d58da830;
+}
+
+.heart-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c7668d;
+  margin-bottom: 12px;
+}
+
+.heart-counter {
+  font-size: 25px;
+  color: #c45581;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+#heartCount {
+  display: inline-block;
+  min-width: 35px;
+  font-variant-numeric: tabular-nums;
+}
+
+.heart-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.heart-btn {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  touch-action: manipulation;
+}
+
+.heart-btn:active {
+  transform: scale(0.92);
+}
+
+.add-heart {
+  background: #e77da4;
+  color: white;
+  box-shadow: 0 5px 12px #dc7b9d55;
+}
+
+.remove-heart {
+  background: #f5d5e1;
+  color: #ad5279;
+}
+
+.heart-btn:focus-visible,
+.secret-close:focus-visible {
+  outline: 3px solid #a94d74;
+  outline-offset: 3px;
+}
+
+/* ===== 愛心飄浮動畫 ===== */
+
+.floating-heart {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  font-size: 30px;
+  animation: heartFloat 1.7s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes heartFloat {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(0.6) rotate(-10deg);
+  }
+
+  30% {
+    opacity: 1;
+    transform:
+      translate(
+        calc(-50% + var(--drift) * 0.4),
+        -45px
+      )
+      scale(1.3)
+      rotate(10deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(
+        calc(-50% + var(--drift)),
+        -160px
+      )
+      scale(0.8)
+      rotate(25deg);
+  }
+}
+
+.count-pop {
+  animation: countPop 0.3s ease;
+}
+
+@keyframes countPop {
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+/* ===== 隱藏彩蛋彈出視窗 ===== */
+
+.secret-overlay {
+  position: fixed;
+  inset: 0;
+  background: #75435cb8;
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.secret-overlay.show {
+  display: flex;
+}
+
+.secret-box {
+  position: relative;
+  width: min(90vw, 520px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(145deg, #fff5fa, #ffe3ef);
+  border: 3px solid #e9a1bc;
+  border-radius: 28px;
+  padding: 35px 25px;
+  box-shadow: 0 18px 55px #562b4970;
+  animation: secretAppear 0.8s ease both;
+}
+
+.secret-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f6d4e1;
+  color: #b85c82;
+  font-size: 28px;
+  line-height: 1;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.secret-close:hover {
+  background: #eaa6c0;
+  color: white;
+}
+
+.secret-icon {
+  font-size: 55px;
+  margin-bottom: 12px;
+  animation: secretPulse 2s ease-in-out infinite;
+}
+
+.secret-box h2,
+.secret-revealed h2 {
+  color: #c55480;
+  font-size: 25px;
+  margin: 12px 0 18px;
+}
+
+.secret-message {
+  color: #a85477;
+  font-size: 17px;
+  line-height: 2;
+}
+
+.secret-signature {
+  margin-top: 22px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #d56894;
+}
+
+@keyframes secretAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(40px);
+  }
+
+  70% {
+    transform: scale(1.05) translateY(-5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes secretPulse {
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ===== 解鎖後永久顯示的彩蛋 ===== */
+
+.secret-revealed {
+  width: min(90vw, 520px);
+  margin-top: 24px;
+  padding: 30px 22px;
+  border: 3px solid #e9a1bc;
+  border-radius: 25px;
+  background: linear-gradient(145deg, #fff5fa, #ffe3ef);
+  box-shadow: 0 10px 28px #d58da84d;
+  animation: secretAppear 0.8s ease both;
+}
+
+.secret-revealed[hidden] {
+  display: none;
+}
+
 .note {
   margin-top: 24px;
   font-size: 14px;
   color: #b87c93;
 }
+
+/* ===== 手機版 ===== */
 
 @media (max-width: 450px) {
   h1 {
@@ -222,6 +455,20 @@ h1 {
   .number {
     font-size: 21px;
   }
+
+  .heart-btn {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .secret-box,
+  .secret-revealed {
+    padding: 28px 20px;
+  }
+
+  .secret-message {
+    font-size: 16px;
+  }
 }
 </style>
 </head>
@@ -231,13 +478,12 @@ h1 {
 <h1>💕 幸福之門 💕</h1>
 
 <p class="subtitle">
-  每一天的等待，都是幸福的累積。<br>
   距離那扇門開啟，還剩下……
 </p>
 
+<!-- 幸福之門 -->
 <div class="door-frame" id="doorFrame">
 
-  <!-- 門後畫面 -->
   <div class="inside">
     <h2>✨ 幸福之門開啟 ✨</h2>
     <p>
@@ -246,19 +492,16 @@ h1 {
     </p>
   </div>
 
-  <!-- 左門 -->
   <div class="door left-door">
     <div class="panel"></div>
     <div class="handle"></div>
   </div>
 
-  <!-- 右門 -->
   <div class="door right-door">
     <div class="panel"></div>
     <div class="handle"></div>
   </div>
 
-  <!-- 門中央的倒數牌 -->
   <div class="countdown-board">
 
     <div class="board-title">
@@ -269,22 +512,22 @@ h1 {
 
       <div class="time-box">
         <div class="number" id="days">0</div>
-        <div class="label">天</div>
+        <div class="time-label">天</div>
       </div>
 
       <div class="time-box">
         <div class="number" id="hours">00</div>
-        <div class="label">時</div>
+        <div class="time-label">時</div>
       </div>
 
       <div class="time-box">
         <div class="number" id="minutes">00</div>
-        <div class="label">分</div>
+        <div class="time-label">分</div>
       </div>
 
       <div class="time-box">
         <div class="number" id="seconds">00</div>
-        <div class="label">秒</div>
+        <div class="time-label">秒</div>
       </div>
 
     </div>
@@ -296,11 +539,123 @@ h1 {
   </div>
 </div>
 
+<!-- 愛心收藏盒 -->
+<div class="heart-section">
+
+  <div class="heart-counter" aria-live="polite">
+     <span id="heartCount">0</span> 顆愛心
+  </div>
+
+  <div class="heart-buttons">
+    <button
+      type="button"
+      class="heart-btn add-heart"
+      id="addHeartBtn"
+    >
+      💖 新增愛心
+    </button>
+
+    <button
+      type="button"
+      class="heart-btn remove-heart"
+      id="removeHeartBtn"
+    >
+      💔 愛心 -1
+    </button>
+  </div>
+
+</div>
+
+<!-- 解鎖後永久顯示於愛心收藏盒下方 -->
+<section
+  class="secret-revealed"
+  id="secretRevealed"
+  aria-label="專屬驚喜訊息"
+  hidden
+>
+  <div class="secret-icon">💝</div>
+
+  <h2> 給最愛我的你 </h2>
+
+  <div class="secret-message">
+    !!Surprise!!
+    <br>
+    每一顆愛心，都代表著我對你的一份喜歡。<br>
+    謝謝你走進我的世界，讓平凡的日子變得閃閃發亮。<br>
+    不管未來有多少個春夏秋冬，我希望能夠一直陪在你身邊。<br>
+    這份愛，不會因時間而減少。<br>
+    只會一天比一天更多~~
+    <br>
+    <br>
+    以上都是GPT寫的啦，但我覺得他寫得很好，我認同他~~
+    <br>
+    不過這份驚喜不是那個，想不到你會點到99顆愛心~
+    <br>
+    因此恭喜獲得抓屁屁🍑10分鐘券一張!!
+    <br>
+    說明：此卷只要隨時提出，就隨時使命必達，無拒絕
+  </div>
+
+  <div class="secret-signature">
+    ♡ 均~我永遠愛你歐歐 ♡
+  </div>
+</section>
+
 <p class="note">
-  ♡ 每一秒，都離幸福更近一點 ♡
+  均 ♥ 沛沛
 </p>
 
+<!-- 隱藏彩蛋彈出視窗 -->
+<div
+  class="secret-overlay"
+  id="secretOverlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="secretTitle"
+  aria-hidden="true"
+>
+  <div class="secret-box" id="secretBox" tabindex="-1">
+
+    <button
+      type="button"
+      class="secret-close"
+      id="closeSecretBtn"
+      aria-label="關閉驚喜視窗"
+    >
+      ×
+    </button>
+
+    <div class="secret-icon">💝</div>
+
+     <h2> 給最愛我的你 </h2>
+
+  <div class="secret-message">
+    !!Surprise!!
+    <br>
+    每一顆愛心，都代表著我對你的一份喜歡。<br>
+    謝謝你走進我的世界，讓平凡的日子變得閃閃發亮。<br>
+    不管未來有多少個春夏秋冬，我希望能夠一直陪在你身邊。<br>
+    這份愛，不會因時間而減少。<br>
+    只會一天比一天更多~~
+    <br>
+    <br>
+    以上都是GPT寫的啦，但我覺得他寫得很好，我認同他~~
+    <br>
+    不過這份驚喜不是那個，想不到你會點到99顆愛心~
+    <br>
+    因此恭喜獲得抓屁屁🍑10分鐘券一張!!
+    <br>
+    說明：此卷只要隨時提出，就隨時使命必達，無拒絕
+  </div>
+
+  <div class="secret-signature">
+    ♡ 均~我永遠愛你歐歐 ♡
+  </div>
+</div>
+
 <script>
+/* ===== 倒數計時 ===== */
+
 // 台灣時間 2027/10/31 00:00
 const targetDate = new Date(
   "2027-10-31T00:00:00+08:00"
@@ -310,8 +665,7 @@ const doorFrame = document.getElementById("doorFrame");
 
 function updateCountdown() {
 
-  const now = Date.now();
-  const distance = targetDate - now;
+  const distance = targetDate - Date.now();
 
   if (distance <= 0) {
     document.getElementById("days").textContent = "0";
@@ -319,7 +673,6 @@ function updateCountdown() {
     document.getElementById("minutes").textContent = "00";
     document.getElementById("seconds").textContent = "00";
 
-    // 倒數結束，自動開門
     doorFrame.classList.add("open");
     return;
   }
@@ -327,12 +680,8 @@ function updateCountdown() {
   const totalSeconds = Math.floor(distance / 1000);
 
   const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor(
-    (totalSeconds % 86400) / 3600
-  );
-  const minutes = Math.floor(
-    (totalSeconds % 3600) / 60
-  );
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
   document.getElementById("days").textContent = days;
@@ -344,11 +693,202 @@ function updateCountdown() {
     String(seconds).padStart(2, "0");
 }
 
-// 立即更新
 updateCountdown();
-
-// 每秒更新
 setInterval(updateCountdown, 1000);
+
+
+/* ===== 愛心收集 ===== */
+
+const addHeartBtn =
+  document.getElementById("addHeartBtn");
+
+const removeHeartBtn =
+  document.getElementById("removeHeartBtn");
+
+const heartCountElement =
+  document.getElementById("heartCount");
+
+const secretOverlay =
+  document.getElementById("secretOverlay");
+
+const secretRevealed =
+  document.getElementById("secretRevealed");
+
+const closeSecretBtn =
+  document.getElementById("closeSecretBtn");
+
+// 不在畫面上公開彩蛋條件
+const SECRET_TARGET = 10;
+
+const HEART_STORAGE_KEY = "anniversaryHeartCount";
+const SECRET_STORAGE_KEY = "anniversarySecretUnlocked";
+
+function readStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (error) {
+    return null;
+  }
+}
+
+function saveStorage(key, value) {
+  try {
+    localStorage.setItem(key, String(value));
+  } catch (error) {
+    // 儲存失敗不影響網頁操作
+  }
+}
+
+// 恢復愛心數量
+const savedCount = Number(readStorage(HEART_STORAGE_KEY));
+
+let heartCount = Number.isFinite(savedCount)
+  ? Math.max(0, Math.floor(savedCount))
+  : 0;
+
+// 恢復彩蛋狀態
+let secretUnlocked =
+  readStorage(SECRET_STORAGE_KEY) === "true";
+
+// 避免第一次觸發時重複彈窗
+let secretPending = false;
+
+// 更新愛心數量
+function updateHeartCount() {
+
+  heartCountElement.textContent = heartCount;
+
+  saveStorage(HEART_STORAGE_KEY, heartCount);
+
+  heartCountElement.classList.remove("count-pop");
+  void heartCountElement.offsetWidth;
+  heartCountElement.classList.add("count-pop");
+}
+
+// 飄浮愛心動畫
+function createFloatingHeart() {
+
+  const rect = addHeartBtn.getBoundingClientRect();
+
+  const heart = document.createElement("span");
+  heart.className = "floating-heart";
+
+  const hearts = ["💗", "💕", "💖", "💓", "💝"];
+
+  heart.textContent =
+    hearts[Math.floor(Math.random() * hearts.length)];
+
+  const randomX = (Math.random() - 0.5) * 70;
+  const drift = (Math.random() - 0.5) * 140;
+
+  heart.style.left =
+    rect.left + rect.width / 2 + randomX + "px";
+
+  heart.style.top =
+    rect.top + rect.height / 2 + "px";
+
+  heart.style.setProperty("--drift", drift + "px");
+
+  document.body.appendChild(heart);
+
+  heart.addEventListener("animationend", () => {
+    heart.remove();
+  }, { once: true });
+
+}
+
+// 顯示彩蛋彈出視窗
+function showSecret() {
+
+  secretPending = false;
+  secretUnlocked = true;
+
+  saveStorage(SECRET_STORAGE_KEY, true);
+
+  secretOverlay.classList.add("show");
+  secretOverlay.setAttribute("aria-hidden", "false");
+
+  document.body.style.overflow = "hidden";
+
+  closeSecretBtn.focus();
+}
+
+// 關閉彩蛋並在下方永久顯示
+function closeSecret() {
+
+  secretOverlay.classList.remove("show");
+  secretOverlay.setAttribute("aria-hidden", "true");
+
+  document.body.style.overflow = "";
+
+  // 顯示收藏盒下方的永久訊息
+  secretRevealed.hidden = false;
+
+  saveStorage(SECRET_STORAGE_KEY, true);
+
+  // 自動捲動到訊息
+  secretRevealed.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  // 將鍵盤焦點移回愛心按鈕
+  addHeartBtn.focus({ preventScroll: true });
+}
+
+// 關閉按鈕事件
+closeSecretBtn.addEventListener("click", closeSecret);
+
+// 新增愛心
+addHeartBtn.addEventListener("click", () => {
+
+  heartCount++;
+
+  updateHeartCount();
+  createFloatingHeart();
+
+  // 第一次達成隱藏條件
+  if (
+    heartCount >= SECRET_TARGET &&
+    !secretUnlocked &&
+    !secretPending
+  ) {
+
+    secretPending = true;
+    secretUnlocked = true;
+
+    saveStorage(SECRET_STORAGE_KEY, true);
+
+    // 讓最後一顆愛心先飄出
+    setTimeout(showSecret, 1200);
+  }
+
+});
+
+// 愛心 -1
+removeHeartBtn.addEventListener("click", () => {
+
+  heartCount = Math.max(0, heartCount - 1);
+
+  updateHeartCount();
+
+});
+
+// 頁面初始化
+heartCountElement.textContent = heartCount;
+
+// 已經解鎖過的彩蛋：
+// 重新整理後直接顯示於下方
+// 不再次彈出視窗
+if (secretUnlocked || heartCount >= SECRET_TARGET) {
+
+  secretUnlocked = true;
+
+  saveStorage(SECRET_STORAGE_KEY, true);
+
+  secretRevealed.hidden = false;
+}
+
 </script>
 
 </body>
