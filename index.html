@@ -1,115 +1,272 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>幸福倒數計時器</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>幸福之門倒數計時</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #ffe6ee;
-      font-family: "Microsoft JhengHei", Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #a64d70;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #ffe5ee;
+  font-family: "Microsoft JhengHei", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ad5279;
+  padding: 30px 12px;
+}
 
-    .container {
-      width: 90%;
-      max-width: 650px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 50px 25px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(220, 120, 155, 0.15);
-    }
+h1 {
+  font-size: 32px;
+  margin: 0 0 12px;
+  color: #cb668e;
+}
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 15px;
-      color: #d65c8a;
-    }
+.subtitle {
+  font-size: 16px;
+  margin: 0 0 28px;
+  line-height: 1.8;
+}
 
-    .description {
-      font-size: 18px;
-      line-height: 1.8;
-      margin-bottom: 35px;
-    }
+/* 門框 */
+.door-frame {
+  position: relative;
+  width: min(90vw, 410px);
+  height: 490px;
+  border: 12px solid #e6a1b9;
+  border-bottom-width: 15px;
+  border-radius: 190px 190px 10px 10px;
+  background: #fff9fb;
+  box-shadow: 0 16px 35px #d58da85c;
+  overflow: hidden;
+  perspective: 1000px;
+}
 
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
+/* 門後的祝福 */
+.inside {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(#fff2f7, #ffffff);
+  padding: 25px;
+}
 
-    .time-box {
-      background: #fff0f5;
-      border-radius: 15px;
-      padding: 20px 10px;
-      flex: 1;
-      min-width: 0;
-    }
+.inside h2 {
+  font-size: 30px;
+  color: #d46591;
+}
 
-    .number {
-      font-size: 36px;
-      font-weight: bold;
-      color: #d65c8a;
-      font-variant-numeric: tabular-nums;
-    }
+.inside p {
+  font-size: 17px;
+  line-height: 1.8;
+}
 
-    .label {
-      font-size: 16px;
-      margin-top: 8px;
-    }
+/* 左右門片 */
+.door {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    #f9cbd9,
+    #e9a8c0
+  );
+  border: 2px solid #d98fac;
+  transition: transform 2.5s ease;
+  z-index: 2;
+  backface-visibility: hidden;
+}
 
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #c77996;
-    }
+.left-door {
+  left: 0;
+  transform-origin: left center;
+  border-radius: 180px 0 0 0;
+}
 
-    @media (max-width: 480px) {
-      .container {
-        padding: 35px 15px;
-      }
+.right-door {
+  right: 0;
+  transform-origin: right center;
+  border-radius: 0 180px 0 0;
+}
 
-      h1 {
-        font-size: 28px;
-      }
+/* 門片上的裝飾線條 */
+.panel {
+  position: absolute;
+  top: 20%;
+  bottom: 12%;
+  left: 12%;
+  width: 76%;
+  border: 3px solid #fff2f6;
+  border-radius: 85px 85px 9px 9px;
+  box-shadow: inset 0 0 0 5px #e9acc1;
+}
 
-      .number {
-        font-size: 25px;
-      }
+/* 金色門把 */
+.handle {
+  position: absolute;
+  top: 54%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #d4a64f;
+  border: 2px solid #fff1bb;
+  box-shadow: 0 2px 6px #8a596477;
+  z-index: 4;
+}
 
-      .time-box {
-        padding: 15px 5px;
-      }
+.left-door .handle {
+  right: 12px;
+}
 
-      .label {
-        font-size: 14px;
-      }
-    }
-  </style>
+.right-door .handle {
+  left: 12px;
+}
+
+/* 倒數計時牌 */
+.countdown-board {
+  position: absolute;
+  left: 50%;
+  top: 32%;
+  transform: translateX(-50%);
+  width: 92%;
+  background: #fff8fbeF;
+  border: 2px solid #efb4ca;
+  border-radius: 18px;
+  padding: 16px 8px;
+  z-index: 5;
+  box-shadow: 0 8px 22px #bc789455;
+  transition: opacity 0.8s;
+}
+
+.board-title {
+  font-size: 15px;
+  margin-bottom: 13px;
+  font-weight: bold;
+  color: #ae5679;
+}
+
+.countdown {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.time-box {
+  flex: 1;
+  min-width: 0;
+  background: #fce2ec;
+  border-radius: 9px;
+  padding: 10px 2px;
+}
+
+.number {
+  font-size: 25px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  color: #bd587d;
+}
+
+.label {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.target {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #b87490;
+}
+
+/* 倒數結束，門開啟 */
+.door-frame.open .left-door {
+  transform: rotateY(-110deg);
+}
+
+.door-frame.open .right-door {
+  transform: rotateY(110deg);
+}
+
+.door-frame.open .countdown-board {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.note {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #b87c93;
+}
+
+@media (max-width: 450px) {
+  h1 {
+    font-size: 27px;
+  }
+
+  .door-frame {
+    height: 440px;
+  }
+
+  .number {
+    font-size: 21px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>💕 幸福倒數計時 💕</h1>
+<h1>💕 幸福之門 💕</h1>
 
-    <p class="description">
-      距離我們期待的那一天<br>
-      還剩下……
+<p class="subtitle">
+  每一天的等待，都是幸福的累積。<br>
+  距離那扇門開啟，還剩下……
+</p>
+
+<div class="door-frame" id="doorFrame">
+
+  <!-- 門後畫面 -->
+  <div class="inside">
+    <h2>✨ 幸福之門開啟 ✨</h2>
+    <p>
+      期待已久的日子終於到來！<br>
+      願所有美好都如期而至。💕
     </p>
+  </div>
+
+  <!-- 左門 -->
+  <div class="door left-door">
+    <div class="panel"></div>
+    <div class="handle"></div>
+  </div>
+
+  <!-- 右門 -->
+  <div class="door right-door">
+    <div class="panel"></div>
+    <div class="handle"></div>
+  </div>
+
+  <!-- 門中央的倒數牌 -->
+  <div class="countdown-board">
+
+    <div class="board-title">
+      距離幸福之門開啟
+    </div>
 
     <div class="countdown">
+
       <div class="time-box">
         <div class="number" id="days">0</div>
         <div class="label">天</div>
@@ -129,61 +286,70 @@
         <div class="number" id="seconds">00</div>
         <div class="label">秒</div>
       </div>
+
     </div>
 
-    <div class="footer" id="footer">
-      2027年10月31日 00:00 ♡
+    <div class="target">
+      2027 / 10 / 31　00:00
     </div>
+
   </div>
+</div>
 
-  <script>
-    // 目標時間：2027/10/31 00:00 台灣時間
-    const targetDate = new Date(
-      "2027-10-31T00:00:00+08:00"
-    ).getTime();
+<p class="note">
+  ♡ 每一秒，都離幸福更近一點 ♡
+</p>
 
-    function updateCountdown() {
-      // 取得現在時間
-      const now = Date.now();
+<script>
+// 台灣時間 2027/10/31 00:00
+const targetDate = new Date(
+  "2027-10-31T00:00:00+08:00"
+).getTime();
 
-      // 計算剩餘毫秒
-      const distance = targetDate - now;
+const doorFrame = document.getElementById("doorFrame");
 
-      // 如果倒數結束
-      if (distance <= 0) {
-        document.getElementById("days").textContent = "0";
-        document.getElementById("hours").textContent = "00";
-        document.getElementById("minutes").textContent = "00";
-        document.getElementById("seconds").textContent = "00";
-        document.getElementById("footer").textContent =
-          "💕 期待的日子到了！💕";
-        return;
-      }
+function updateCountdown() {
 
-      // 換算天、時、分、秒
-      const totalSeconds = Math.floor(distance / 1000);
+  const now = Date.now();
+  const distance = targetDate - now;
 
-      const days = Math.floor(totalSeconds / 86400);
-      const hours = Math.floor((totalSeconds % 86400) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
+  if (distance <= 0) {
+    document.getElementById("days").textContent = "0";
+    document.getElementById("hours").textContent = "00";
+    document.getElementById("minutes").textContent = "00";
+    document.getElementById("seconds").textContent = "00";
 
-      // 更新畫面
-      document.getElementById("days").textContent = days;
-      document.getElementById("hours").textContent =
-        String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent =
-        String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent =
-        String(seconds).padStart(2, "0");
-    }
+    // 倒數結束，自動開門
+    doorFrame.classList.add("open");
+    return;
+  }
 
-    // 開啟網頁立即執行
-    updateCountdown();
+  const totalSeconds = Math.floor(distance / 1000);
 
-    // 每秒更新一次
-    setInterval(updateCountdown, 1000);
-  </script>
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor(
+    (totalSeconds % 86400) / 3600
+  );
+  const minutes = Math.floor(
+    (totalSeconds % 3600) / 60
+  );
+  const seconds = totalSeconds % 60;
+
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent =
+    String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent =
+    String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent =
+    String(seconds).padStart(2, "0");
+}
+
+// 立即更新
+updateCountdown();
+
+// 每秒更新
+setInterval(updateCountdown, 1000);
+</script>
 
 </body>
 </html>
